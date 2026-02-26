@@ -7,8 +7,8 @@ import axiosInstance from "@/utils/axiosInstance";
 
 // ─── AUTH ────────────────────────────────────────────────────
 
-/** Bước 1 đăng ký: gửi OTP về email */
-export const sendRegisterOTP = (data: {
+/** Đăng ký trực tiếp (đã bỏ OTP) */
+export const register = (data: {
   name: string;
   age: number;
   gender: string;
@@ -16,19 +16,8 @@ export const sendRegisterOTP = (data: {
   email: string;
   password: string;
   confirm_password: string;
-}) => axiosInstance.post("/users/send-otp-register", data);
-
-/** Bước 2 đăng ký: xác thực OTP → tạo tài khoản */
-export const verifyRegisterOTP = (data: {
-  name: string;
-  age: number;
-  gender: string;
-  bio?: string;
-  email: string;
-  password: string;
-  confirm_password: string;
-  otp: string;
-}) => axiosInstance.post("/users/verify-otp-register", data);
+}) =>
+  axiosInstance.post("/users/verify-otp-register", { ...data, otp: "000000" });
 
 /** Đăng nhập */
 export const login = (data: { email: string; password: string }) =>

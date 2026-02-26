@@ -1,4 +1,4 @@
-# Dating App - Frontend
+# Dating App - Frontend - Responsive for Mobile and PC
 
 Ứng dụng hẹn hò với tính năng kết nối và đặt lịch hẹn hò thông minh.
 
@@ -43,7 +43,6 @@ Tính năng đặt lịch hẹn giúp hai người tìm ra khung giờ rảnh ch
 
 Nếu có thêm thời gian, dự án sẽ được nâng cấp các hạng mục sau:
 
-- **Hệ thống Chat**: Tích hợp nhắn tin real-time cho các cặp đôi đã match.
 - **Bộ lọc tìm kiếm**: Cho phép lọc người dùng theo khoảng cách, sở thích và các tiêu chí chi tiết hơn.
 - **Tích hợp Calendar**: Đồng bộ lịch hẹn với Google Calendar hoặc iCal.
 - **Tối ưu trải nghiệm mobile**: Cải thiện các cử chỉ vuốt (swipe) để like/unlike mượt mà hơn.

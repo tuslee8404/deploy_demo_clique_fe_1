@@ -1,73 +1,57 @@
-# Welcome to your Lovable project
+# Dating App - Frontend
 
-## Project info
+Ứng dụng hẹn hò với tính năng kết nối và đặt lịch hẹn hò thông minh.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🏗 Tổ chức hệ thống
 
-## How can I edit this code?
+Dự án được xây dựng theo mô hình Single Page Application (SPA) sử dụng React và Vite:
 
-There are several ways of editing your application.
+- **`src/pages`**: Chứa các trang chính của ứng dụng (Login, Register, Dashboard, Matches, Date Scheduling).
+- **`src/components`**: Các components UI dùng chung, tích hợp `shadcn/ui`.
+- **`src/redux`**: Quản lý state toàn cục (với Redux Toolkit) cho Authentication (lưu user info, tokens).
+- **`src/context`**: Cung cấp `SocketContext` cho việc kết nối WebSocket (Socket.io) thời gian thực.
+- **`src/services`**: Chứa `api.ts` định nghĩa các hàm gọi API thông qua `axios`.
+- **`src/utils`**: Cấu hình `axiosInstance` với interceptors để xử lý auto-refresh token.
 
-**Use Lovable**
+## 💾 Lưu trữ dữ liệu
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- **Backend / Database**: Toàn bộ dữ liệu về người dùng, bài viết, lượt thích và lịch hẹn được lưu trữ tại Backend (Node.js/Express) và Database (MongoDB).
+- **Redux / Local Storage**: Thông tin đăng nhập và `accessToken` được lưu trong Redux Store. Sử dụng `redux-persist` để đồng bộ dữ liệu vào `localStorage`, giúp duy trì trạng thái đăng nhập khi tải lại trang.
+- **Cookies**: `refreshToken` được quản lý bởi Backend dưới dạng HttpOnly cookie để đảm bảo bảo mật.
 
-Changes made via Lovable will be committed automatically to this repo.
+## ❤️ Logic Match
 
-**Use your preferred IDE**
+Logic tương hợp (Match) hoạt động dựa trên sự tương tác hai chiều:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Like**: Khi bạn "tym" một người, hệ thống sẽ gửi yêu cầu về Backend.
+2. **Tương hợp**: Nếu người đó cũng đã thích bạn trước đó (hoặc thích bạn sau này), một sự kiện `match` sẽ được tạo ra.
+3. **Real-time Notification**: Nhờ có Socket.io, ngay khi có sự tương hợp, frontend sẽ nhận được thông báo tức thời và hiển thị Toast "It's a Match!".
+4. **Trang Matches**: Danh sách các cặp đôi đã match được lấy từ API `/dating/users/matches`.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📅 Logic tìm Slot trùng (Scheduling)
 
-Follow these steps:
+Tính năng đặt lịch hẹn giúp hai người tìm ra khung giờ rảnh chung một cách tự động:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- **Chọn lịch**: Mỗi người chọn các khung giờ rảnh (Yes) hoặc bận (No) trong vòng 21 ngày tới.
+- **Gửi Availability**: Khi nhấn "Gửi lịch trống", frontend gửi danh sách các slot `yes` lên backend.
+- **Backend Matching**: Backend so sánh lịch của hai người. Nếu tìm thấy khung giờ mà cả hai đều rảnh, nó sẽ trả về `isMatched: true` cùng khung giờ đó.
+- **Xử lý xung đột**:
+  - Nếu không có xung đột (ví dụ: một trong hai người không có lịch hẹn khác vào lúc đó), lịch hẹn sẽ được chốt tự động.
+  - Nếu có xung đột (cùng khung giờ đó nhưng một người đã có lịch hẹn với người khác), hệ thống sẽ hiển thị cảnh báo để người dùng quyết định có "chốt luôn" hay không.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Cải thiện trong tương lai
 
-# Step 3: Install the necessary dependencies.
-npm i
+Nếu có thêm thời gian, dự án sẽ được nâng cấp các hạng mục sau:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- **Hệ thống Chat**: Tích hợp nhắn tin real-time cho các cặp đôi đã match.
+- **Bộ lọc tìm kiếm**: Cho phép lọc người dùng theo khoảng cách, sở thích và các tiêu chí chi tiết hơn.
+- **Tích hợp Calendar**: Đồng bộ lịch hẹn với Google Calendar hoặc iCal.
+- **Tối ưu trải nghiệm mobile**: Cải thiện các cử chỉ vuốt (swipe) để like/unlike mượt mà hơn.
+- **Bảo mật**: Triển khai xác thực khuôn mặt hoặc email OTP để tăng tính minh bạch của tài khoản.
 
-**Edit a file directly in GitHub**
+## 🛠 Công nghệ sử dụng
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- **Frontend**: React, Vite, TypeScript.
+- **Styling**: Tailwind CSS, shadcn/ui.
+- **State Management**: Redux Toolkit.
+- **Communication**: Axios, Socket.io-client.
